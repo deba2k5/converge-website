@@ -1,15 +1,30 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import SocialBar from "@/components/SocialBar";
-import HeroSection from "@/components/HeroSection";
+import HeroCarousel from "@/components/HeroCarousel";
 import EventsSection from "@/components/EventsSection";
 import TimelineSection from "@/components/TimelineSection";
 import TeamSelection from "@/components/TeamSelection";
 import SponsorshipSection from "@/components/SponsorshipSection";
 import PartnersSection from "@/components/PartnersSection";
+import VideoLoader from "@/components/VideoLoader";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const [showLoader, setShowLoader] = useState(false);
+  const [hasCrest, setHasCrest] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const crest = localStorage.getItem("converge_crest");
+    if (crest) {
+      setHasCrest(true);
+      setShowLoader(false);
+    } else {
+      setShowLoader(true);
+    }
+  }, []);
 
   const handleNavigate = (section: string) => {
     setActiveSection(section);
@@ -45,20 +60,26 @@ const Index = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (showLoader) {
+    return <VideoLoader onDone={() => navigate("/select-crest", { replace: true })} />;
+  }
+
   return (
-    <main className="bg-background min-h-screen">
-      <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
-      <SocialBar />
-      
-      <div id="home">
-        <HeroSection />
-      </div>
-      <EventsSection />
-      <TimelineSection />
-      <TeamSelection />
-      <SponsorshipSection />
-      <PartnersSection />
-    </main>
+    <>
+      <main className="bg-background min-h-screen">
+        <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
+        <SocialBar />
+        
+        <div id="home">
+          <HeroCarousel />
+        </div>
+        <EventsSection />
+        <TimelineSection />
+        <TeamSelection />
+        <SponsorshipSection />
+        <PartnersSection />
+      </main>
+    </>
   );
 };
 
