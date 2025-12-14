@@ -21,15 +21,15 @@ const Navbar = ({ activeSection = "home", onNavigate }: NavbarProps) => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-6 right-6 z-50"
     >
-      <div className="nav-pill shadow-2xl">
+      <div className="bg-racing-dark rounded-full px-6 py-3 flex items-center gap-4 shadow-2xl">
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate?.(item.id)}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            className={`p-2.5 rounded-full transition-all duration-300 ${
               activeSection === item.id
-                ? "bg-background text-foreground"
-                : "text-background hover:bg-background/20"
+                ? "bg-white text-racing-dark"
+                : "text-white hover:bg-white/10"
             }`}
             aria-label={item.label}
           >
