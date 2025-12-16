@@ -85,7 +85,8 @@ const HeroCarousel = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-racing-gray overflow-hidden">
+    <section className="relative h-full bg-racing-gray 
+    rounded-[3rem] overflow-hidden">
       <Swiper
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
         effect="fade"
@@ -124,30 +125,31 @@ const HeroCarousel = () => {
                 <div className="h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 py-20">
                   <motion.p
                     variants={itemVariants}
-                    className="text-foreground/80 text-sm md:text-base mb-4"
+                    className="font-formula1 text-foreground/80 text-sm md:text-base mb-4"
                   >
                     Get ready for
                   </motion.p>
 
                   <motion.h1
                     variants={itemVariants}
-                    className="font-display text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground mb-4"
+                    className="font-formula1 text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground mb-4"
                   >
                     {slide.title.split("E")[0]}
                     <span className="text-primary">E</span>
                     {slide.title.split("E")[1]}
+                    <span className="text-primary">E</span>
                   </motion.h1>
 
                   <motion.p
                     variants={itemVariants}
-                    className="font-display text-lg md:text-xl italic text-primary mb-6"
+                    className="font-formula1 text-lg md:text-xl italic text-primary mb-6"
                   >
                     {slide.subtitle}
                   </motion.p>
 
                   <motion.p
                     variants={itemVariants}
-                    className="text-foreground/70 max-w-md text-sm md:text-base leading-relaxed mb-8"
+                    className="font-formula1 text-foreground/70 max-w-md text-sm md:text-base leading-relaxed mb-8"
                   >
                     <span className="text-primary font-semibold">IEEE CS, IEM</span> {slide.description.substring(18)}
                   </motion.p>
@@ -156,11 +158,11 @@ const HeroCarousel = () => {
                     variants={itemVariants}
                     className="flex flex-wrap gap-4"
                   >
-                    <button className="cta-button group">
+                    <button className="cta-button group font-formula1">
                       Be a part
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <button className="cta-button-outline group">
+                    <button className="cta-button-outline group font-formula1">
                       Brochure
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </button>
@@ -195,12 +197,14 @@ const HeroCarousel = () => {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="absolute bottom-8 left-8 bg-primary/90 backdrop-blur-sm rounded-full px-6 py-4 cursor-pointer hover:bg-primary transition-colors z-20"
+        className="absolute bottom-0 left-0 bg-primary/90 
+        backdrop-blur-sm rounded-[3rem] px-12 py-4 cursor-pointer 
+        hover:bg-primary transition-colors z-20"
       >
-        <p className="font-display font-bold text-background text-sm mb-1">
+        <p className="font-formula1 font-bold text-background text-sm mb-1">
           Checkout the events
         </p>
-        <p className="text-background/90 text-xs">
+        <p className="font-formula1 text-background/90 text-xs">
           Take a look at what to expect from<br />
           CONVERGE, 2025
         </p>

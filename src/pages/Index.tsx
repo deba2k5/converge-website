@@ -9,12 +9,37 @@ import TeamSelection from "@/components/TeamSelection";
 import SponsorshipSection from "@/components/SponsorshipSection";
 import PartnersSection from "@/components/PartnersSection";
 import VideoLoader from "@/components/VideoLoader";
+import HeroSection from "@/components/HeroSection";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 
+gsap.registerPlugin(ScrollTrigger);
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [showLoader, setShowLoader] = useState(false);
   const [hasCrest, setHasCrest] = useState(false);
   const navigate = useNavigate();
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+  const panels = gsap.utils.toArray<HTMLElement>(".scroll-panel");
+
+  panels.forEach((panel) => {
+    ScrollTrigger.create({
+      trigger: panel,
+      start: "top top",
+      end: "+=100%",
+      pin: true,
+      pinSpacing: false,
+      scrub: true,
+    });
+  });
+
+  return () => ScrollTrigger.getAll().forEach(t => t.kill());
+}, []);
+
 
   useEffect(() => {
     const crest = localStorage.getItem("converge_crest");
@@ -65,21 +90,34 @@ const Index = () => {
   }
 
   return (
-    <>
-      <main className="bg-background min-h-screen">
-        <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
-        <SocialBar />
-        
-        <div id="home">
-          <HeroCarousel />
-        </div>
+      <main
+      ref={containerRef}
+      className="bg-background min-h-screen overflow-hidden"
+    >
+      <section id="home" className="scroll-panel h-screen">
+        <HeroSection />
+      </section>
+
+      <section className="scroll-panel h-screen">
         <EventsSection />
+      </section>
+
+      <section className="scroll-panel h-screen">
         <TimelineSection />
+      </section>
+
+      <section className="scroll-panel h-screen">
         <TeamSelection />
+      </section>
+
+      <section className="scroll-panel h-screen">
         <SponsorshipSection />
+      </section>
+
+      <section className="scroll-panel h-screen">
         <PartnersSection />
-      </main>
-    </>
+      </section>
+    </main>
   );
 };
 

@@ -1,117 +1,155 @@
-import { ArrowRight, ArrowDownRight } from "lucide-react";
+import { ArrowRight, ArrowDownRight, ArrowRightCircleIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-f1.jpg";
 import driverImage from "@/assets/driver-portrait.jpg";
+import Navbar from "./Navbar";
+import redbullPic from "../assets/bgs/redbull picture.jpg"
+// import ferrariPic from "../assets/bgs/ferrari-bg.jpg"
+import mercedesPic from "../assets/bgs/mercedes-bg.jpeg"
+import mclarenPic from "../assets/bgs/mclaren-bg.jpeg"
+import SocialBar from "./SocialBar";
+import redBullDriver from "../assets/drivers/redbull-driver.webp"
 
 const HeroSection = () => {
+  
+  const crest = localStorage.getItem("converge_crest");
+  const bgUrl = crest == "redbull" ? redbullPic : crest == "ferrari" ? redBullDriver : crest == "mercedes" ? mercedesPic : crest == "mclaren" ? mclarenPic : redbullPic; 
+  
   return (
-    <section className="relative min-h-screen bg-racing-gray overflow-hidden">
-      {/* Main content area */}
-      <div className="flex min-h-screen">
-        {/* Left side - Hero image */}
-        <div className="relative flex-1 m-4 rounded-3xl overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
-          
-          {/* Content overlay */}
-          <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 py-20">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-foreground/80 text-sm md:text-base mb-4"
-            >
-              Get ready for
-            </motion.p>
-            
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="font-display text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-foreground mb-4"
-            >
-              CONV<span className="text-primary">E</span>RGE
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="font-display text-lg md:text-xl italic text-primary mb-6"
-            >
-              Flagship event of IEEE CS IEM
-            </motion.p>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-foreground/70 max-w-md text-sm md:text-base leading-relaxed mb-8"
-            >
-              <span className="text-primary font-semibold">IEEE CS, IEM</span> has returned with yet another
-              version of CONVERGE, A true technical extravaganza in all senses. This time, inspired
-              by the legacy of the FORMULA 1 Racing. Be a part of it and acquire an experience to cherish
-              for your lifetime
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-wrap gap-4"
-            >
-              <button className="cta-button group">
-                Be a part
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="cta-button-outline group">
-                Brochure
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-          </div>
+    <div className="flex py-10 px-20 items-center justify-center 
+    h-[100vh] w-[100vw] bg-white overflow-hidden">
+    
+    <div className="bg-gray-300 rounded-[2rem] relative 
+      h-full w-full overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${bgUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}>
+
+        <div className="absolute flex flex-col
+        left-[10%] top-[15%]
+        w-[50%] h-[70%] rounded-[2rem] p-4">
+              {/* Get ready for */}
+              <div className="w-full p-1">
+                <h4 className="text-lg font-formula1 font-bold text-white">
+                  Get ready for
+                </h4>
+              </div>
+
+              {/* Converge - main heading */}
+              <div className="w-full mb-4">
+                <h2 className="text-[6.5rem] leading-none 
+                font-formula1 font-bold text-white">
+                  CONVERGE
+                </h2>
+              </div>
+
+              {/* Flagship event line */}
+              <div className="w-full mb-6">
+                <h2 className="text-[1.2rem] leading-none 
+                font-formula1 font-bold text-white">
+                  Flagship event of IEEE Computer Society IEM
+                </h2>
+              </div>
+
+              
+              <div className="ml-[15%] w-[70%] p-2">
+
+                {/* short description */}
+                <div className="w-full mb-6">
+                <h2 className="text-[1rem] leading-relaxed 
+                font-formula1 text-white">
+                  IEEE CS, IEM has returned with yet another version of CONVERGE, 
+                  A true technical extravaganza in all senses. This time, 
+                  inspired by the legacy of the FORMULA 1 Racing. 
+                  Be a part of it and acquire an experience to cherish for your lifetime 
+                </h2>
+                </div>
+
+                {/* CTA Buttons - Register and downloa brochure */}
+                <div className="w-full flex justify-start gap-4">
+                  <button className="flex justify-between items-center 
+                  bg-gray-400 text-white 
+                  px-6 py-4 rounded-full font-formula1
+                  hover:bg-red-600 transition-colors 
+                  duration-300">
+                    Register
+                    <span className="ml-4">
+                      <ArrowRightCircleIcon className="w-5 h-5" />
+                    </span>
+
+                  </button>
+                  <button className="flex justify-between items-center 
+                  bg-transparent text-white 
+                  px-6 py-2 rounded-full border-2 border-white font-formula1
+                  hover:bg-blue-600 transition-colors 
+                  duration-300">
+                    Download Brochure
+                    <span className="ml-4">
+                      <ArrowRightCircleIcon className="w-5 h-5" />
+                    </span>
+                  </button>
+                </div>
+              </div>
         </div>
 
-        {/* Right side - Driver image */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="hidden lg:flex items-end justify-center w-80 xl:w-96 relative"
-        >
-          <div className="absolute bottom-8 right-8 w-64 xl:w-72 h-80 xl:h-96 rounded-3xl overflow-hidden shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-primary/30" />
-            <img
-              src={driverImage}
-              alt="F1 Driver"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </motion.div>
+
+      <div className="absolute flex top-0 right-0 bg-white pl-6 pb-6
+      rounded-bl-[2rem]">
+      <div className="h-full w-full rounded-bl-[2rem]
+      bg-black z-50 overflow-hidden">
+        <Navbar/>
+      </div>
       </div>
 
-      {/* Checkout events banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="absolute bottom-8 left-4 md:left-8"
-      >
-        <div className="bg-primary rounded-2xl px-6 py-4 flex items-center gap-4 shadow-lg">
-          <div>
-            <p className="font-semibold text-primary-foreground text-sm">Checkout the events</p>
-            <p className="text-primary-foreground/70 text-xs">
-              Take a look at what to expect from<br />
-              CONVERGE, 2025
-            </p>
-          </div>
-          <ArrowDownRight className="w-6 h-6 text-primary-foreground" />
+      <div className="absolute w-[20%] aspect-square 
+      flex bottom-0 right-0 bg-white pl-6 pt-6
+      rounded-tl-[2rem]">
+      <div className="w-full rounded-br-[2rem] rounded-tl-[2rem] 
+      bg-black z-50 overflow-hidden">
+        {crest && 
+        crest == "redbull" ? 
+        <img src={redbullPic} alt="Crest" className="w-full h-full object-cover"/> :
+        crest == "ferrari" ? 
+        <img src={redBullDriver} alt="Crest" className="w-full h-full object-cover" /> :
+        crest == "mercedes" ? 
+        <img src={mercedesPic} alt="Crest" className="w-full h-full object-cover" /> :
+        crest == "mclaren" ? 
+        <img src={mclarenPic} alt="Crest" className="w-full h-full object-cover" /> :
+        <img src={redbullPic} alt="Crest" className="w-full h-full object-cover" />}
+      </div>
+      </div>
+
+
+      <div className="absolute w-[5%] h-[35%]
+      flex bottom-32 left-0 bg-white pr-6 py-6
+      rounded-tr-[2rem] rounded-br-[2rem]">    
+      <div className="h-full w-full rounded-r-[2rem]
+      bg-black z-50 overflow-hidden">
+        <SocialBar/>
+      </div>
+      </div>
+
+
+      <div className="absolute left-0 bottom-0 w-[30%] h-[14%] bg-white  
+      rounded-tr-[2rem] z-50 overflow-hidden pr-6 pt-6">  
+        <div className="flex-col w-full h-full bg-yellow-500 p-4 px-8 
+        rounded-[2rem] z-50 
+        cursor-pointer hover:bg-orange-400 overflow-hidden">
+          <h1 className="text-[1rem] font-formula1 
+          font-bold text-black">
+            Checkout the events
+          </h1>
+
+          <h3 className="text-[0.65rem] font-formula1 
+          text-black">
+            Take a loot at what to expect from CONVERGE 2026
+          </h3>
         </div>
-      </motion.div>
-    </section>
+      </div>
+      </div>
+    </div>
   );
 };
 

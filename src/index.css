@@ -4,6 +4,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Formula1';
+  src: url('./assets/fonts/Formula1-Regular_web_0.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('./assets/fonts/Formula1-Bold_web.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('./assets/fonts/Formula1-Bold_web.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
 @layer base {
   :root {
     --background: 220 20% 8%;
@@ -219,4 +245,22 @@
   .swiper-button-prev {
     left: 30px !important;
   }
+}
+
+.outer-border {
+  position: relative;
+}
+
+.outer-border::before {
+  content: "";
+  position: absolute;
+
+  /* push outward */
+  inset: -12px;
+
+  background: black;
+  /* border color */
+  border-bottom-left-radius: 2.5rem;
+
+  z-index: -1;
 }

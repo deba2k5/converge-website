@@ -1,4 +1,4 @@
-import { Home, MapPin, User, Phone } from "lucide-react";
+import { Home, MapPin, User, Phone, Calendar, TicketIcon, icons } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface NavbarProps {
@@ -9,7 +9,8 @@ interface NavbarProps {
 const Navbar = ({ activeSection = "home", onNavigate }: NavbarProps) => {
   const navItems = [
     { id: "home", icon: Home, label: "Home" },
-    { id: "events", icon: MapPin, label: "Events" },
+    { id: "events", icon: Calendar, label: "Events" },
+    {id: "schedule" , icon:TicketIcon, label: "Schedule"},
     { id: "team", icon: User, label: "Team" },
     { id: "contact", icon: Phone, label: "Contact" },
   ];
@@ -19,17 +20,19 @@ const Navbar = ({ activeSection = "home", onNavigate }: NavbarProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-6 right-6 z-50"
+      className="w-full h-full"
     >
-      <div className="nav-pill shadow-2xl">
+      <div className="grid grid-cols-5 bg-black nav-pill w-full h-full">
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate?.(item.id)}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            className={`flex items-center justify-center 
+              p-3 col-span-1 rounded-full 
+              transition-all duration-300 ${
               activeSection === item.id
-                ? "bg-background text-foreground"
-                : "text-background hover:bg-background/20"
+                ? "bg-foreground text-background"
+                : "text-foreground hover:bg-foreground/20"
             }`}
             aria-label={item.label}
           >

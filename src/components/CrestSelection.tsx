@@ -3,141 +3,246 @@ import { motion, AnimatePresence } from "framer-motion";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 
-import crest1 from "@/assets/CONVERGE.png";
-import crest2 from "@/assets/CONVERGE (2).png";
-import crest3 from "@/assets/CONVERGE (3).png";
-import crest4 from "@/assets/CONVERGE (6).png";
+import mercedesCar from "@/assets/cars/AMG.svg";
+import redbullCar from "@/assets/cars/redbull.svg";
+import ferrariCar from "@/assets/cars/ferrari.svg";
+import McLarenCar from "@/assets/cars/mclaren.svg";
 
-const crests = [crest1, crest2, crest3, crest4];
+import mercedes from "@/assets/logos/AMG.svg";
+import redbull from "@/assets/logos/redbull.png";
+import ferrari from "@/assets/logos/ferrari.svg";
+import mclaren from "@/assets/logos/mclaren.svg";
+
+const crests = [mercedes, redbull, ferrari, mclaren];
 
 const CrestSelection = ({ onSelected }: { onSelected: (src: string) => void }) => {
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
 
+  const [selectedCrest, setSelectedCrest] = useState<string | null>(null);
+
+  const manageCrest = (crest: string) => {
+    setSelectedCrest(crest);
+    localStorage.setItem("converge_crest", crest);
+    navigate("/");
+    onSelected(crest);
+  };
+
+
   useEffect(() => {
     setReady(true);
   }, []);
 
-  useEffect(() => {
-    const canvas = document.getElementById("crest-bg-canvas") as HTMLCanvasElement | null;
-    if (!canvas) return;
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-
-    const geometry = new THREE.IcosahedronGeometry(2, 1);
-    const material = new THREE.MeshStandardMaterial({ color: 0x9f7aea, roughness: 0.4, metalness: 0.6 });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    const light = new THREE.PointLight(0xffc107, 1.2);
-    light.position.set(5, 5, 5);
-    scene.add(light);
-
-    const handleResize = () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    const animate = () => {
-      mesh.rotation.x += 0.003;
-      mesh.rotation.y += 0.004;
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    };
-    animate();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      renderer.dispose();
-      geometry.dispose();
-      material.dispose();
-    };
-  }, []);
-
-  const handleSelect = (src: string) => {
-    localStorage.setItem("converge_crest", src);
-    onSelected(src);
-    navigate("/", { replace: true });
-  };
-
-  return (
-    <AnimatePresence>
-      {ready && (
-        <motion.div
+  return(
+    <div className="w-[100vw] h-[100vh] bg-gradient-to-l from-[#6b0100] to-[#000000] flex items-center justify-center">
+      <div className="flex flex-col w-[70%] h-[80%] rounded-[2rem]">
+        
+        <div className="w-full flex items-center justify-center p-4 mb-4">
+          <motion.h1 
+          className="text-[1.5rem] font-formula1 font-bold text-white"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[999] bg-gradient-to-br from-black via-black/70 to-primary/20"
-        >
-          <canvas id="crest-bg-canvas" className="absolute inset-0 w-full h-full" />
-          <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-6">
-            <motion.h2
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="font-display text-2xl md:text-4xl font-extrabold text-foreground mb-8"
-            >
-              CHOOSE YOUR CREST
-            </motion.h2>
+          transition={{ 
+            delay:0.5,
+            duration: 0.5 }}
+          >
 
-            <motion.div
-              initial={{ scale: 0.98, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-2 gap-10 max-w-5xl"
-            >
-              {crests.map((src, i) => (
-                <motion.button
-                  key={src}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleSelect(src)}
-                  className="group rounded-3xl overflow-hidden shadow-2xl bg-black/40 backdrop-blur-md border border-white/10"
-                >
-                  <div
-                    className="relative w-full h-80 will-change-transform"
-                    onMouseMove={(e) => {
-                      const card = e.currentTarget as HTMLDivElement;
-                      const rect = card.getBoundingClientRect();
-                      const x = e.clientX - rect.left;
-                      const y = e.clientY - rect.top;
-                      const centerX = rect.width / 2;
-                      const centerY = rect.height / 2;
-                      const rotateY = ((x - centerX) / centerX) * 8;
-                      const rotateX = -((y - centerY) / centerY) * 8;
-                      card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                    }}
-                    onMouseLeave={(e) => {
-                      const card = e.currentTarget as HTMLDivElement;
-                      card.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg)";
-                    }}
+            Select your crest
+          </motion.h1>
+        </div>
+
+        <div className="w-full flex flex-grow items-center justify-center
+        rounded-[2rem] p-6">
+            <div className="w-full h-full grid grid-cols-2 gap-6">
+              
+              {/* Mercedes - AMG */}
+              <motion.div
+                className="relative flex items-center justify-center 
+                          w-full h-full rounded-[2rem] bg-black cursor-pointer"
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2, delay: 0 }
+                }}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{
+                  scaleX: { delay: 1, duration: 0.4 }
+                }}
+                style={{ transformOrigin: "right center" }}
+                onClick={() => manageCrest("mercedes")}
+              >
+
+                
+                <div className="flex items-center justify-center 
+                w-[90%] h-[90%] overflow-hidden"
+                style={{
+                  backgroundImage: `url(${mercedes})`,
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}> 
+                </div>
+
+                <motion.div
+                className="absolute w-full bottom-[-7rem] z-50"
+                initial={{ x: "50%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                    delay: 1.2,
+                    duration:0.5,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 18,
+                  }}
+              >
+                <img
+                  src={mercedesCar}
+                  className="object-contain"
+                  alt="mercedes car"
+                />
+              </motion.div>
+              </motion.div>
+
+              {/* Red Bull Racing */}
+              <motion.div    
+              className="relative flex items-center justify-center 
+              w-full h-full rounded-[2rem] bg-[#001031] 
+              cursor-pointer"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2, delay: 0 }
+              }}
+              initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{
+                  scaleX: { delay: 1.2, duration: 0.4 }
+                }}
+                style={{ transformOrigin: "right center" }}
+                onClick={() => manageCrest("redbull")}
+              >
+
+                <div className="flex items-center justify-center 
+                w-[90%] h-[90%] overflow-hidden"
+                style={{
+                  backgroundImage: `url(${redbull})`,
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}>
+                </div>
+
+                <motion.div className="absolute z-50 w-full bottom-[-7rem]"
+                initial={{ x: "50%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                    delay: 1.6,
+                    duration:0.5,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 18,
+                  }}
                   >
-                    <motion.img
-                      src={src}
-                      alt={`Crest ${i + 1}`}
-                      className="w-full h-full object-cover rounded-3xl"
-                      initial={{ scale: 1 }}
-                      whileHover={{ scale: 1.04 }}
-                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-3 right-3 text-xs text-white/90">Click to select</div>
-                    </div>
-                  </div>
-                </motion.button>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+                    <img src={redbullCar} 
+                    className="object-contain" 
+                    alt="redbull car" />
+                </motion.div>
+
+              </motion.div>
+
+              {/* Ferrari */}
+              <motion.div 
+              className="relative flex items-center justify-center 
+              w-full h-full rounded-[2rem] bg-[#950100] cursor-pointer"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2, delay: 0 }
+              }}
+              initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{
+                  scaleX: { delay: 1.6, duration: 0.4 }
+                }}
+                style={{ transformOrigin: "right center" }}
+                onClick={() => manageCrest("ferrari")}
+              >
+
+                <div className="flex items-center justify-center 
+                w-[90%] h-[90%] overflow-hidden"
+                style={{
+                  backgroundImage: `url(${ferrari})`,
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}>
+                </div>
+
+                <motion.div className="absolute w-full bottom-[-7rem]"
+                initial={{ x: "50%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                    delay: 2.2,
+                    duration: 0.5,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 18,
+                  }}
+                >
+                    <img src={ferrariCar} 
+                    className="object-contain" 
+                    alt="ferrari car" />
+                </motion.div>
+              </motion.div>
+
+              {/* McLaren */}
+              <motion.div 
+              className="relative flex items-center justify-center 
+              w-full h-full rounded-[2rem] bg-[#b23600] cursor-pointer"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2, delay: 0 }
+              }}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{
+                  scaleX: { delay: 2.0, duration: 0.4 }
+                }}
+                style={{ transformOrigin: "right center" }}
+                onClick={() => manageCrest("mclaren")}
+              >
+
+                <div className="flex items-center justify-center 
+                w-[90%] h-[90%] overflow-hidden"
+                style={{
+                  backgroundImage: `url(${mclaren})`,
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}>
+                </div>
+
+                <motion.div className="absolute w-full bottom-[-7rem]"
+                initial={{ x: "50%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{
+                    delay: 2.4,
+                    duration:0.5,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 18,
+                  }}
+                  >
+                    <img src={McLarenCar} 
+                    className="object-contain" 
+                    alt="McLaren car" />
+                </motion.div>
+              </motion.div>
+            </div>
+        </div>
+      </div>
+
+    </div>
   );
+  
 };
 
 export default CrestSelection;
